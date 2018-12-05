@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<HTML xmlns:th="http://www.thymeleaf.org">
+<HEAD>
+    <META content="IE=11.0000"
+          http-equiv="X-UA-Compatible">
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <TITLE>投票列表</TITLE>
+    <LINK href="css/style.css" rel="stylesheet" type="text/css">
+    <META name="GENERATOR" content="MSHTML 11.00.10586.420">
+    <script type="text/javascript">
+        function dels(sid) {
+            if (confirm("确认是否删除？")) {
+                window.location.href = "del?sid=" + sid;
+                window.event.returnValue=false;
+            }
+        }
+    </script>
+</HEAD>
+<BODY>
+<DIV class="wrap" id="header"><IMG src="images/logo.gif"></DIV>
+<DIV class="wrap" id="navbar">
+    <DIV class="profile">您好，<span th:text="${session.user.username}"></span><SPAN class="return"><A
+            th:href="@{page}">返回列表</A></SPAN>
+        <SPAN class="addnew"><A th:href="@{addView}">添加新投票</A></SPAN>
+        <SPAN class="modify"><A th:href="@{maintain}">维护</A></SPAN>
+        <SPAN class="return"><A
+                th:href="@{exit}">注销</A></SPAN></DIV>
+    <DIV class="search">
+        <!--<FORM action="page" method="post"><INPUT name="keywords" class="input-text" type="text"-->
+                                                 <!--th:value="${param.keywords}"><INPUT-->
+                <!--name="submit" class="input-button" type="submit" value=""/>-->
+        <!--</FORM>-->
+    </DIV>
+</DIV>
+<DIV class="wrap" id="vote">
+    <H2>投票列表</H2>
+    <DIV style="float: right;"><A th:href="@{maintainPage(pageIndex=1)}">首页</A>
+        | <A th:href="@{maintainPage(pageIndex=${pg.pageNum-1})}">上一页</A> | <A th:href="@{maintainPage(pageIndex=${pg.pageNum+1})}">下一页</A> | <A th:href="@{maintainPage(pageIndex=${pg.pages})}">末页</A>
+    </DIV>
+    <BR>
+    <UL class="list">
+        <LI class="odd" th:each="p,nstart:${pg}">
+            <H4><A
+                    th:href="@{votes(sid=${p.sid})}" th:text="${p.title}">哪个浏览器好用</A>
+            </H4>
+            <DIV class="join"><a th:href="@{updateVote(sid=${p.sid})}">维护</a><a
+                    th:onclick="'javascript:dels('+${p.sid}+')'" href="javaSprint:void(0)">删除</a></DIV>
+            <P class="info">共有 <span th:text="${p.t_count}">4</span> 个选项，已有 <span th:text="${p.i_count}">9</span> 个投票。
+            </P></LI>
+    </UL>
+    <div style="padding-top: 10px;"></div>
+    <DIV style="float: right;"><A th:href="@{maintainPage(pageIndex=1)}">首页</A>
+        | <A th:href="@{maintainPage(pageIndex=${pg.pageNum-1})}">上一页</A> | <A th:href="@{maintainPage(pageIndex=${pg.pageNum+1})}">下一页</A> | <A th:href="@{maintainPage(pageIndex=${pg.pages})}">末页</A>
+    </DIV>
+</DIV>
+<DIV class="wrap" id="footer"> 北大青鸟 © 版权所有</DIV>
+</BODY>
+</HTML>

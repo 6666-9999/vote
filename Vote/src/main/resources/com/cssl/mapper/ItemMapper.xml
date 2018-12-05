@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssl.mapper.ItemMapper">
+      <select id="getByOidCount" parameterType="int" resultType="int">
+           SELECT COUNT(0) FROM `item` WHERE oid=#{oid}
+      </select>
+
+    <insert id="sava" parameterType="item" keyColumn="iid" keyProperty="iid">
+        insert into `item`(uid,sid,oid) values(#{uid},#{sid},#{oid})
+    </insert>
+
+    <delete id="del" parameterType="int">
+        delete from `item` where sid=#{sid}
+    </delete>
+
+    <select id="isVote" resultType="int">
+        SELECT COUNT(0) FROM `item` WHERE uid=#{uid} AND sid=#{sid}
+    </select>
+
+</mapper>

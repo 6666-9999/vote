@@ -1,0 +1,33 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /Vote
+mybatis:
+  type-aliases-package: com.cssl.pojo
+  configuration:
+    auto-mapping-behavior: full
+    use-generated-keys: true
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql:///vote?serverTimezone=GMT%2B8
+    username: root
+    password: root123
+
+  #静态文件请求匹配方式
+  mvc:
+    static-path-pattern: /**
+  #修改默认的静态寻址资源目录
+  resources:
+    static-locations: classpath:/templates/,classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+
+  thymeleaf:
+    encoding: UTF-8
+    cache: false
+    prefix: classpath:templates/
+    suffix: .html
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  page-size-zero: true

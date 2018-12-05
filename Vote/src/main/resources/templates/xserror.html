@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <LINK href="css/style.css" rel="stylesheet" type="text/css">
+    <title>提示</title>
+</head>
+<body>
+<DIV class="wrap" id="header"><IMG src="images/logo.gif"></DIV>
+<DIV class="wrap" id="navbar">
+    <DIV class="profile">您好，<span th:text="${session.user.username}"></span><SPAN class="return"><A
+            th:href="@{page}">返回列表</A></SPAN>
+        <SPAN class="addnew"><A th:href="@{qx(ym='addView')}">添加新投票</A></SPAN>
+        <SPAN class="modify"><A th:href="@{qx(ym='maintain')}">维护</A></SPAN>
+        <SPAN class="return"><A th:href="@{exit}">注销</A></SPAN>
+    </DIV>
+</DIV>
+<div id="vote" class="wrap">
+    <br/>
+    用户权限不足，请联系管理员！
+</div>
+<DIV class="wrap" id="footer"> 北大青鸟 © 版权所有</DIV>
+</body>
+</html>

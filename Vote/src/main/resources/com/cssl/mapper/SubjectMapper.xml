@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssl.mapper.SubjectMapper">
+
+    <resultMap id="myMap" type="subject">
+        <id column="sid" property="sid"/>
+        <result column="t_count" property="t_count"/>
+        <result column="i_count" property="i_count"/>
+    </resultMap>
+
+    <sql id="msql">
+        <where>
+            <if test="keywords != null and keywords != ''">
+                and title like concat('%',#{keywords},'%')
+            </if>
+        </where>
+    </sql>
+
+    <select id="getPage" parameterType="map" resultMap="myMap">
+        SELECT s.*
+        ,(SELECT COUNT(0) FROM `options` o WHERE s.sid=o.osid) t_count
+        ,(SELECT COUNT(0) FROM `item` i WHERE s.sid=i.sid) i_count
+        FROM `subject` s
+        <include refid="msql"/>
+    </select>
+
+    <insert id="add" parameterType="subject" keyColumn="sid" keyProperty="sid">
+        insert into `subject`(title,type) values(#{title},#{type})
+    </insert>
+
+    <select id="getNewId" resultType="int">
+         SELECT LAST_INSERT_ID()
+    </select>
+
+    <select id="getBySid" parameterType="int" resultType="subject">
+         SELECT s.*
+,(SELECT COUNT(0) FROM `options` o WHERE s.sid=o.osid)  t_count
+,(SELECT COUNT(0) FROM `item` i WHERE  s.sid=i.sid) i_count
+ FROM `subject` s where s.sid=#{sid}
+    </select>
+
+    <resultMap id="mys" type="subject">
+        <id column="sid" property="sid"/>
+        <collection property="ops" ofType="options">
+            <id column="oid" property="oid"/>
+        </collection>
+    </resultMap>
+
+    <select id="getByOptionsAll" parameterType="int" resultMap="mys">
+        SELECT * FROM `subject` s
+INNER JOIN `options`  o ON s.`sid`=o.`osid`
+WHERE s.sid=#{sid}
+    </select>
+
+
+    <delete id="del" parameterType="int">
+        delete from `subject` where sid=#{sid}
+    </delete>
+
+    <update id="update" parameterType="subject">
+        UPDATE `subject`  SET title=#{title},TYPE=#{type} WHERE sid=#{sid}
+    </update>
+
+</mapper>
